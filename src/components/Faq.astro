@@ -1,0 +1,37 @@
+---
+import Cta from './Cta.astro';
+import Icon from './Icon.astro';
+import { ctaLabel, faq, whatsappUrl } from '../data/clinic';
+---
+
+<section id="duvidas" class="bg-white">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-24 md:grid-cols-12 md:px-6">
+    <div class="md:col-span-4" data-reveal>
+      <p class="font-sans text-xs font-light tracking-widest text-stone uppercase">Dúvidas</p>
+      <h2 class="mt-4 text-2xl sm:text-3xl md:text-4xl">Perguntas frequentes</h2>
+      <p class="mt-6 max-w-[680px] text-base">Não achou o que precisava?</p>
+      <div class="mt-6">
+        <Cta href={whatsappUrl} external>{ctaLabel}</Cta>
+      </div>
+    </div>
+    <div class="md:col-span-8" data-reveal>
+      {
+        faq.map((item, index) => (
+          <div>
+            {index > 0 && <div class="h-px bg-sand" aria-hidden="true" />}
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl px-4 py-4 text-left transition-all duration-700 ease-fluid hover:bg-sand focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]">
+                <span class="text-base font-semibold">{item.q}</span>
+                <Icon
+                  name="caret"
+                  class="h-4 w-4 shrink-0 transition-transform duration-700 ease-fluid group-open:rotate-180"
+                />
+              </summary>
+              <p class="px-4 pt-2 pb-6 text-base">{item.a}</p>
+            </details>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+import { steps } from '../data/clinic';
+---
+
+<section id="como-funciona" class="bg-black text-white">
+  <div class="mx-auto max-w-7xl px-4 py-24 md:px-6" data-reveal>
+    <p class="font-sans text-xs font-light tracking-widest text-sand uppercase">Como funciona</p>
+    <h2 class="mt-4 max-w-[680px] text-4xl text-white md:text-5xl">Da mensagem ao plano</h2>
+    <ol class="mt-16 flex flex-col gap-12">
+      {
+        steps.map((step, index) => (
+          <li class="grid items-end gap-4 md:grid-cols-12">
+            <p class="font-display text-6xl text-sand tabular-nums md:col-span-3">
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <p class="max-w-[680px] text-lg text-white md:col-span-8">{step}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

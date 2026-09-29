@@ -1,0 +1,68 @@
+---
+import Icon from './Icon.astro';
+import { cuidados, dentist, instagramUrl } from '../data/clinic';
+
+const clinicLinks = [
+  { href: '/#depoimentos', label: 'Depoimentos' },
+  { href: '/#responsavel', label: 'Responsável técnica' },
+  { href: '/#duvidas', label: 'Dúvidas' },
+  { href: '/#onde', label: 'Onde estamos' },
+  { href: '/privacidade', label: 'Privacidade' },
+  { href: '/termos', label: 'Termos' },
+];
+
+const linkClass =
+  'text-sm text-black transition-all duration-700 ease-fluid hover:text-stone focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:translate-y-px';
+---
+
+<footer class="bg-white">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-12 md:px-6">
+    <div class="md:col-span-5">
+      <p class="font-display text-3xl">Zaya</p>
+      <p class="mt-4 max-w-sm text-sm text-black">
+        Clínica odontológica na Vila Curuçá, São Miguel Paulista. Preço e horário são confirmados no
+        WhatsApp.
+      </p>
+    </div>
+    <nav class="md:col-span-3" aria-label="Cuidados">
+      <p class="font-sans text-xs font-light tracking-widest text-stone uppercase">Cuidados</p>
+      <ul class="mt-4 flex flex-col gap-3">
+        {
+          cuidados.map((item) => (
+            <li>
+              <a href={`/#${item.id}`} class={linkClass}>
+                {item.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <nav class="md:col-span-4" aria-label="A clínica">
+      <p class="font-sans text-xs font-light tracking-widest text-stone uppercase">A clínica</p>
+      <ul class="mt-4 flex flex-col gap-3">
+        {
+          clinicLinks.map((item) => (
+            <li>
+              <a href={item.href} class={linkClass}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class:list={['inline-flex items-center gap-2', linkClass]}>
+            <Icon name="instagram" class="h-4 w-4" />
+            Instagram
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+    <p class="text-sm text-stone">
+      © 2026 Zaya Odontologia Humanizada · Responsável técnica: {dentist.name}, {dentist.cro}
+    </p>
+    <p class="mt-4 text-sm text-black">Desenvolvido por Mídia 360</p>
+  </div>
+</footer>

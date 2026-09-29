@@ -1,0 +1,210 @@
+---
+import Cta from './Cta.astro';
+import { ctaLabel, nav, whatsappUrl } from '../data/clinic';
+
+interface Props {
+  home?: boolean;
+  currentLabel?: string;
+}
+
+const { home = false, currentLabel } = Astro.props;
+const delays = ['delay-100', 'delay-150', 'delay-200', 'delay-300', 'delay-500', 'delay-700'];
+---
+
+<div class="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4">
+  <nav
+    class="pointer-events-auto mt-6 flex w-max max-w-full items-center gap-2 rounded-full border border-sand bg-white/80 py-2 pr-2 pl-4 backdrop-blur-3xl"
+    aria-label="Principal"
+    data-nav-root
+  >
+    <a
+      href={home ? '#conteudo' : '/'}
+      class="font-display text-xl tracking-wide text-black transition-all duration-700 ease-fluid hover:text-stone focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:translate-y-px"
+    >
+      Zaya
+    </a>
+
+    {
+      home ? (
+        <ul class="hidden items-center lg:flex">
+          {nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                data-nav-link
+                class="rounded-full px-3 py-2 text-sm font-medium text-black transition-all duration-700 ease-fluid hover:bg-sand focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98] aria-[current=location]:bg-sand"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <a
+          href="/"
+          class="rounded-full px-3 py-2 text-sm font-medium text-black transition-all duration-700 ease-fluid hover:bg-sand focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]"
+        >
+          Início
+        </a>
+      )
+    }
+
+    {
+      currentLabel && (
+        <span aria-current="page" class="rounded-full bg-sand px-3 py-2 text-sm font-semibold">
+          {currentLabel}
+        </span>
+      )
+    }
+
+    {
+      home && (
+        <div class="hidden lg:block">
+          <Cta href={whatsappUrl} size="sm" external>
+            {ctaLabel}
+          </Cta>
+        </div>
+      )
+    }
+
+    {
+      home && (
+        <button
+          type="button"
+          class="relative h-12 w-12 rounded-full transition-all duration-700 ease-fluid hover:bg-sand focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98] lg:hidden"
+          data-menu-button
+          aria-expanded="false"
+          aria-controls="menu-principal"
+          aria-label="Abrir menu"
+        >
+          <span
+            data-bar="a"
+            class="absolute top-4 left-3 h-0.5 w-6 origin-center bg-black transition-all duration-700 ease-fluid"
+          />
+          <span
+            data-bar="b"
+            class="absolute top-8 left-3 h-0.5 w-6 origin-center bg-black transition-all duration-700 ease-fluid"
+          />
+        </button>
+      )
+    }
+  </nav>
+</div>
+
+{
+  home && (
+    <div
+      id="menu-principal"
+      data-menu
+      inert
+      class="pointer-events-none fixed inset-0 z-40 bg-white/80 opacity-0 backdrop-blur-3xl transition-all duration-700 ease-fluid lg:hidden"
+    >
+      <div class="flex min-h-dvh flex-col justify-center gap-6 px-6 pt-24 pb-12">
+        {nav.map((item, index) => (
+          <a
+            href={item.href}
+            data-menu-link
+            data-nav-link
+            class:list={[
+              'translate-y-12 text-4xl text-black opacity-0 transition-all duration-700 ease-fluid focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black',
+              delays[index],
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+        <div
+          data-menu-link
+          class:list={['translate-y-12 opacity-0 transition-all duration-700 ease-fluid', delays[nav.length]]}
+        >
+          <Cta href={whatsappUrl} external>
+            {ctaLabel}
+          </Cta>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  const button = document.querySelector('[data-menu-button]');
+  const panel = document.querySelector('[data-menu]');
+
+  if (button instanceof HTMLButtonElement && panel instanceof HTMLElement) {
+    const barA = button.querySelector('[data-bar="a"]');
+    const barB = button.querySelector('[data-bar="b"]');
+    let open = false;
+
+    const placeBars = (next) => {
+      if (!(barA instanceof HTMLElement) || !(barB instanceof HTMLElement)) return;
+      barA.classList.toggle('top-4', !next);
+      barA.classList.toggle('top-1/2', next);
+      barA.classList.toggle('-translate-y-1/2', next);
+      barA.classList.toggle('rotate-45', next);
+      barB.classList.toggle('top-8', !next);
+      barB.classList.toggle('top-1/2', next);
+      barB.classList.toggle('-translate-y-1/2', next);
+      barB.classList.toggle('-rotate-45', next);
+    };
+
+    const setOpen = (next, focus) => {
+      open = next;
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      panel.classList.toggle('pointer-events-none', !open);
+      panel.classList.toggle('opacity-0', !open);
+      panel.classList.toggle('opacity-100', open);
+      panel.toggleAttribute('inert', !open);
+      document.body.classList.toggle('overflow-hidden', open);
+      panel.querySelectorAll('[data-menu-link]').forEach((link) => {
+        link.classList.toggle('translate-y-12', !open);
+        link.classList.toggle('opacity-0', !open);
+        link.classList.toggle('translate-y-0', open);
+        link.classList.toggle('opacity-100', open);
+      });
+      placeBars(open);
+      if (!focus) return;
+      if (open) {
+        const first = panel.querySelector('a');
+        if (first instanceof HTMLElement) first.focus();
+      } else {
+        button.focus();
+      }
+    };
+
+    button.addEventListener('click', () => setOpen(!open, true));
+    panel.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false, false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && open) setOpen(false, true);
+    });
+
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', () => {
+      if (desktop.matches && open) setOpen(false, false);
+    });
+  }
+
+  const sections = [...document.querySelectorAll('section[id]')];
+  const links = [...document.querySelectorAll('[data-nav-link]')];
+
+  if (sections.length && links.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const id = visible.target.id;
+        links.forEach((link) => {
+          const current = link.getAttribute('href') === `#${id}`;
+          if (current) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.25, 0.5] },
+    );
+    sections.forEach((section) => spy.observe(section));
+  }
+</script>

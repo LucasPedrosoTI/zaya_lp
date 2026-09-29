@@ -1,0 +1,26 @@
+---
+import { dentist } from '../data/clinic';
+---
+
+<section id="responsavel" class="bg-black text-white">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-24 md:grid-cols-12 md:px-6">
+    <div class="md:col-span-7" data-reveal>
+      <p class="font-sans text-xs font-light tracking-widest text-sand uppercase">
+        Responsável técnica
+      </p>
+      <h2 class="mt-6 max-w-[680px] text-3xl sm:text-5xl lg:text-6xl">{dentist.name}</h2>
+      <p class="mt-6 font-sans text-xs font-light tracking-widest text-sand uppercase">
+        {dentist.cro}
+      </p>
+    </div>
+    <div class="md:col-span-5" data-reveal>
+      <div class="rounded-3xl bg-sand p-8 text-black">
+        <p class="text-base">{dentist.text}</p>
+        <p class="mt-6 text-sm font-semibold">
+          {dentist.clinic}
+          <span class="mt-2 block font-normal">{dentist.clinicCro}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

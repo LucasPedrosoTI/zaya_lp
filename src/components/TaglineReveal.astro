@@ -1,0 +1,39 @@
+---
+import { tagline } from '../data/clinic';
+---
+
+<section class="bg-white" aria-labelledby="tagline">
+  <div class="mx-auto max-w-7xl px-4 py-24 md:px-6">
+    <h2 id="tagline" class="max-w-[680px] text-4xl tracking-wide md:text-5xl lg:text-6xl">
+      {
+        tagline.map((line) => (
+          <span class="block">
+            {line.map((word, wordIndex) => (
+              <span class="tagline-word" style={`--i:${wordIndex}`} data-tag-word>{word}{wordIndex < line.length - 1 ? ' ' : ''}</span>
+            ))}
+          </span>
+        ))
+      }
+    </h2>
+  </div>
+</section>
+
+<script>
+  const words = document.querySelectorAll('[data-tag-word]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    words.forEach((word) => word.classList.add('is-active'));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-active');
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -42% 0px', threshold: 0.6 },
+    );
+    words.forEach((word) => io.observe(word));
+  }
+</script>

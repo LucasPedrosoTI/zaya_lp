@@ -1,0 +1,20 @@
+---
+import Cta from './Cta.astro';
+import { ctaLabel, whatsappUrl } from '../data/clinic';
+---
+
+<section id="avaliar" class="bg-sand">
+  <div class="mx-auto max-w-7xl px-4 py-24 md:px-6" data-reveal>
+    <p class="font-sans text-xs font-light tracking-widest text-black uppercase">Vamos conversar</p>
+    <h2 class="mt-4 max-w-[680px] text-3xl tracking-wide sm:text-4xl lg:text-5xl">
+      Vamos marcar a sua avaliação?
+    </h2>
+    <p class="mt-6 max-w-[680px] text-base">
+      Mande uma mensagem contando o que está sentindo. A clínica responde com os horários livres e o
+      valor da avaliação.
+    </p>
+    <div class="mt-8">
+      <Cta href={whatsappUrl} external>{ctaLabel}</Cta>
+    </div>
+  </div>
+</section>

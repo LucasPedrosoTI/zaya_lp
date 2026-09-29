@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+import { mapsUrl, reviews } from '../data/clinic';
+
+const [featured, ...rest] = reviews;
+---
+
+<section id="depoimentos" class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-24 md:px-6">
+    <div data-reveal>
+      <p class="font-sans text-xs font-light tracking-widest text-stone uppercase">Quem recomenda</p>
+      <h2 class="mt-4 max-w-[680px] text-3xl sm:text-4xl md:text-5xl">O que os pacientes contam</h2>
+      <p class="mt-6 inline-flex items-center gap-2 text-sm text-stone tabular-nums">
+        <Icon name="star" class="h-4 w-4" />
+        5,0 · 5 avaliações
+      </p>
+    </div>
+    <div class="mt-16 grid gap-6 lg:grid-cols-12">
+      <figure class="flex flex-col justify-between rounded-3xl bg-black p-8 text-white lg:col-span-7" data-reveal>
+        <blockquote class="text-2xl">{featured.quote}</blockquote>
+        <figcaption class="mt-8 flex items-center gap-4">
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-sand text-sm font-semibold text-black"
+          >
+            {featured.initials}
+          </span>
+          <cite class="text-sm font-semibold">{featured.name}</cite>
+        </figcaption>
+      </figure>
+      <ul class="flex flex-col gap-6 lg:col-span-5">
+        {
+          rest.map((review) => (
+            <li data-reveal>
+              <figure class="rounded-3xl bg-sand p-6 text-black">
+                <blockquote class="text-base">{review.quote}</blockquote>
+                <figcaption class="mt-6 flex items-center gap-4">
+                  <span class="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-semibold text-sand">
+                    {review.initials}
+                  </span>
+                  <cite class="text-sm font-semibold">{review.name}</cite>
+                </figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <a
+      href={mapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-8 inline-flex items-center gap-2 text-base font-semibold transition-all duration-700 ease-fluid hover:text-stone focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:translate-y-px"
+    >
+      Ler as 5 avaliações no Google
+      <Icon name="arrow" class="h-4 w-4" />
+    </a>
+  </div>
+</section>

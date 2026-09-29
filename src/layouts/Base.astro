@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  home?: boolean;
+  currentLabel?: string;
+  noindex?: boolean;
+}
+
+const { title, description, home = false, currentLabel, noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/logo.jpg" />
+    <meta property="og:image:alt" content="Logotipo da Zaya Odontologia Humanizada" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/logo.jpg" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-black focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-2 focus:outline-solid focus:outline-offset-2 focus:outline-sand"
+    >
+      Pular para o conteúdo
+    </a>
+    <Nav home={home} currentLabel={currentLabel} />
+    <slot />
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const nodes = document.querySelectorAll('[data-reveal]');
+      if (reduce) {
+        nodes.forEach((node) => node.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+        );
+        nodes.forEach((node) => io.observe(node));
+      }
+    </script>
+  </body>
+</html>

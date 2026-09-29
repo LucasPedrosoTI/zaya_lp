@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand: #d3c5bc;
+  --color-stone: #878787;
+  --font-display: "Bodoni Moda", Palatino, "Palatino Linotype", serif;
+  --font-sans: "Montserrat", sans-serif;
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: #ffffff;
+    color: #000000;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-synthesis: none;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: normal;
+    text-wrap: balance;
+  }
+
+  address,
+  blockquote,
+  cite,
+  em,
+  i {
+    font-style: normal;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    background: #d3c5bc;
+    color: #000000;
+  }
+}
+
+.hero-title {
+  background-image: linear-gradient(90deg, #000000, #878787);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.js [data-reveal] {
+  transform: translateY(4rem);
+  filter: blur(12px);
+  opacity: 0;
+  transition:
+    transform 1000ms var(--ease-fluid),
+    filter 1000ms var(--ease-fluid),
+    opacity 1000ms var(--ease-fluid);
+}
+
+.js [data-reveal].is-in {
+  transform: translateY(0);
+  filter: blur(0);
+  opacity: 1;
+}
+
+.tagline-word {
+  color: #000000;
+  transition: color 1000ms var(--ease-fluid);
+  transition-delay: calc(var(--i) * 140ms);
+}
+
+.js .tagline-word {
+  color: rgb(0 0 0 / 0.3);
+}
+
+.js .tagline-word.is-active {
+  color: #000000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-reveal] {
+    transform: none;
+    filter: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .js .tagline-word {
+    color: #000000;
+    transition: none;
+  }
+}

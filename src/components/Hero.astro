@@ -1,0 +1,64 @@
+---
+import Cta from './Cta.astro';
+import Icon from './Icon.astro';
+import { ctaLabel, hero, whatsappUrl } from '../data/clinic';
+
+interface Props {
+  showLogo: boolean;
+}
+
+const { showLogo } = Astro.props;
+---
+
+<section class="bg-white">
+  <div
+    class="mx-auto grid max-w-7xl items-center gap-12 px-4 pt-24 pb-16 md:px-6 xl:min-h-dvh xl:grid-cols-12 xl:pb-24"
+  >
+    <div class="xl:col-span-7" data-reveal>
+      <p class="font-sans text-xs font-light tracking-widest text-stone uppercase">
+        Odontologia humanizada
+      </p>
+      <h1 class="hero-title mt-6 max-w-[680px] text-4xl sm:tracking-wide lg:text-5xl">
+        <span class="sm:hidden">
+          <span class="block">Cuidado calmo</span>
+          <span class="block">para quem</span>
+          <span class="block">{hero.line2}</span>
+        </span>
+        <span class="hidden sm:block">
+          <span class="block">{hero.line1}</span>
+          <span class="block">{hero.line2}</span>
+        </span>
+      </h1>
+      <p class="mt-6 max-w-[680px] text-lg text-black">{hero.sub}</p>
+      <div class="mt-8">
+        <Cta href={whatsappUrl} external>{ctaLabel}</Cta>
+      </div>
+      <a
+        href="#depoimentos"
+        class="mt-8 inline-flex items-center gap-2 text-sm text-stone tabular-nums transition-all duration-700 ease-fluid hover:text-black focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black active:translate-y-px"
+      >
+        <Icon name="star" class="h-4 w-4" />
+        {hero.proof}
+      </a>
+    </div>
+    <div class="xl:col-span-5" data-reveal>
+      <div class="overflow-hidden rounded-3xl bg-black">
+        {
+          showLogo ? (
+            <img
+              src="/logo.jpg"
+              width="1024"
+              height="1024"
+              alt="Logotipo da Zaya Odontologia Humanizada"
+              fetchpriority="high"
+              decoding="async"
+              class="aspect-video w-full object-cover object-center"
+            />
+          ) : (
+            <p class="px-8 py-24 text-center font-display text-4xl text-white">Zaya</p>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
